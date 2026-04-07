@@ -13,7 +13,6 @@ from rest_framework_simplejwt.views import (
 )
 
 from core.views import CategoriaViewSet, EditoraViewSet, LivroViewSet, UserViewSet,AutorViewSet, UserRegistrationView
-
 router = DefaultRouter()
 
 router.register(r'livros', LivroViewSet, basename='livro')
