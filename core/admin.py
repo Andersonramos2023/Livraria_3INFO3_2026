@@ -43,11 +43,18 @@ class AutorAdmin(admin.ModelAdmin):
     ordering = ('nome', 'email')
     list_per_page = 10
 
+class ItensCompraInline(admin.TabularInline):
+    model = ItensCompra
+    extra = 1 
+
 @admin.register(Compra)
-class CompraAdmin(admin.ModelAdmin):
+class CompraAdmin(ModelAdmin):
     list_display = ('usuario', 'status')
+    search_fields = ('usuario', 'status')
+    list_filter = ('usuario', 'status')
     ordering = ('usuario', 'status')
     list_per_page = 10
+    inlines = [ItensCompraInline]
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
