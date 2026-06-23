@@ -17,12 +17,12 @@ from drf_spectacular.views import (
 
 from uploader.router import router as uploader_router
 from core.views import (
-    CategoriaViewSet, 
-    EditoraViewSet, 
-    LivroViewSet, 
-    UserViewSet, 
-    AutorViewSet, 
-    UserRegistrationView
+    AutorViewSet,
+    CategoriaViewSet,
+    CompraViewSet, 
+    EditoraViewSet,
+    LivroViewSet,
+    UserViewSet,
 )
 
 # Configuração do Router
@@ -30,6 +30,7 @@ router = DefaultRouter()
 router.register(r'livros', LivroViewSet, basename='livro')
 router.register(r'autores', AutorViewSet, basename='autor')
 router.register(r'categorias', CategoriaViewSet, basename='categoria')
+router.register(r'compras', CompraViewSet)
 router.register(r'editoras', EditoraViewSet, basename='editora')
 router.register(r'usuarios', UserViewSet, basename='usuario')
 
