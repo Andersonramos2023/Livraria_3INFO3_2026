@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -23,9 +22,9 @@ from core.views import (
     EditoraViewSet,
     LivroViewSet,
     UserViewSet,
+    UserRegistrationView
 )
 
-# Configuração do Router
 router = DefaultRouter()
 router.register(r'livros', LivroViewSet, basename='livro')
 router.register(r'autores', AutorViewSet, basename='autor')

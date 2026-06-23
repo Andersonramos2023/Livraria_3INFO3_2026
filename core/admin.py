@@ -1,12 +1,10 @@
-""" Django admin customization. """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
-from core.models import Autor, Categoria, Editora, Livro, User, Compra
+from core.models import Autor, Categoria, Editora, Livro, User, Compra, ItensCompra
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    """Define the admin pages for users."""
     ordering = ['id']
     list_display = ['email', 'name', 'is_staff']
     fieldsets = (
@@ -27,7 +25,6 @@ class UserAdmin(BaseUserAdmin):
         (_('User Permissions'), {'fields': ('user_permissions',)}),
     )
     readonly_fields = ['last_login']
-    # Mantendo o add_fieldsets padrão do BaseUserAdmin para evitar erros de fields com 'password1'
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -48,9 +45,10 @@ class ItensCompraInline(admin.TabularInline):
     extra = 1 
 
 @admin.register(Compra)
-class CompraAdmin(ModelAdmin):
+class CompraAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'status')
-    search_fields = ('usuario', 'status')
+    
+    search_fields = ('usuario__email', 'status')
     list_filter = ('usuario', 'status')
     ordering = ('usuario', 'status')
     list_per_page = 10
