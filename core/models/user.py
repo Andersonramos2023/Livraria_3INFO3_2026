@@ -7,10 +7,10 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-from uploader.models import Image
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from uploader.models import Image
 
 
 class UserManager(BaseUserManager):
@@ -47,10 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         default=None,
     )
-
-
-class User(AbstractBaseUser, PermissionsMixin):
-    """User model in the system."""
 
     email = models.EmailField(max_length=255, unique=True, verbose_name=_('email'), help_text=_('Email'))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('name'), help_text=_('Username'))
