@@ -1,19 +1,14 @@
-"""
-Django admin customization.
-"""
-
+""" Django admin customization. """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
+from core.models import Autor, Categoria, Editora, Livro, User, Compra
 
-from core.models import Autor, Categoria, Editora, Livro, User
-
-
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     """Define the admin pages for users."""
-
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['email', 'name', 'is_staff']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal Info'), {'fields': ('name', 'foto')}),
@@ -32,24 +27,13 @@ class UserAdmin(BaseUserAdmin):
         (_('User Permissions'), {'fields': ('user_permissions',)}),
     )
     readonly_fields = ['last_login']
+    # Mantendo o add_fieldsets padrão do BaseUserAdmin para evitar erros de fields com 'password1'
     add_fieldsets = (
-        (
-            None,
-            {
-                'classes': ('wide',),
-                'fields': (
-                    'email',
-                    'password1',
-                    'password2',
-                    'name',
-                    'is_active',
-                    'is_staff',
-                    'is_superuser',
-                ),
-            },
-        ),
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password', 'name', 'is_active', 'is_staff', 'is_superuser'),
+        }),
     )
-
 
 @admin.register(Autor)
 class AutorAdmin(admin.ModelAdmin):
@@ -59,6 +43,11 @@ class AutorAdmin(admin.ModelAdmin):
     ordering = ('nome', 'email')
     list_per_page = 10
 
+@admin.register(Compra)
+class CompraAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'status')
+    ordering = ('usuario', 'status')
+    list_per_page = 10
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
@@ -75,7 +64,6 @@ class EditoraAdmin(admin.ModelAdmin):
     list_filter = ('nome', 'email', 'cidade')
     ordering = ('nome', 'email', 'cidade')
     list_per_page = 10
-
 
 @admin.register(Livro)
 class LivroAdmin(admin.ModelAdmin):
