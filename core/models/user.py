@@ -7,7 +7,6 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from uploader.models import Image
@@ -37,6 +36,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     foto = models.ForeignKey(
