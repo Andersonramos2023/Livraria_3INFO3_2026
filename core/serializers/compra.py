@@ -11,9 +11,8 @@ class ItensCompraSerializer(ModelSerializer):
         return instance.livro.preco * instance.quantidade
     class Meta:
         model = ItensCompra
-
-    fields = ('livro', 'quantidade')
-    Depth = 1
+        fields = ('id', 'usuario', 'status', 'total', 'itens')
+        depth = 1
 
 
 class CompraSerializer(ModelSerializer):
