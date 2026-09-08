@@ -5,7 +5,10 @@ from core.models import Compra, ItensCompra
 
 
 class ItensCompraSerializer(ModelSerializer):
-    total = SerializerMethodField()
+    class Meta:
+        model = ItensCompra
+        field = ('livro', 'quantidade')
+        depth = 1
 
     def get_total(self, instance):
         return instance.livro.preco * instance.quantidade
