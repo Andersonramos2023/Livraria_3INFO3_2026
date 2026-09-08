@@ -53,13 +53,20 @@ class ItensCompraInline(admin.TabularInline):
 
 @admin.register(Compra)
 class CompraAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'status')
-
+    # 'total_formatado' adicionado para mostrar o valor total na tabela geral
+    list_display = ('usuario', 'status', 'total_formatado')
     search_fields = ('usuario__email', 'status')
     list_filter = ('usuario', 'status')
     ordering = ('usuario', 'status')
     list_per_page = 10
     inlines = [ItensCompraInline]
+    # 'total_formatado' adicionado como somente leitura no formulário de edição
+    readonly_fields = ('total_formatado',)
+
+    @admin.display(description="Total")
+    def total_formatado(self, obj):
+        """Busca a property 'total' calculada no model e formata como moeda."""
+        return f"R$ {obj.total:.2f}"
 
 
 @admin.register(Categoria)
