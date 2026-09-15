@@ -2,8 +2,29 @@ from pyexpat import model
 from attr import field
 from rest_framework.serializers import CharField, ModelSerializer, SerializerMethodField
 from core.models import Compra, ItensCompra
+from django.db import transaction
+
+class ItensCompraCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = ItensCompra
+        fields = ('livro', 'quantidade')
 
 
+class CompraCreateUpdateSerializer(ModelSerializer):
+    itens = ItensCompraCreateUpdateSerializer(many=True)
+
+    class Meta:
+        model = Compra
+        fields = ('id', 'usuario', 'itens')
+
+    @transaction.atomic
+    def create(self, validated_data):
+        itens = validated_data.pop('itens')
+        compra = Compra.objects.create(**validated_data)
+        for item in itens:
+            ItensCompra.objects.create(compra=compra, **item)
+        compra.save()
+        return compra
 class ItensCompraSerializer(ModelSerializer):
     total = SerializerMethodField()
 
