@@ -10,6 +10,16 @@ from core.serializers import (
     LivroRetrieveSerializer,
     LivroSerializer,
 )
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
+
+
+class LivroViewSet(viewsets.ModelViewSet):
+    queryset = Livro.objects.all()
+    serializer_class = LivroSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['categoria__descricao', 'editora__nome']  # Campos para filtragem
 
 
 class LivroViewSet(ModelViewSet):
