@@ -1,6 +1,11 @@
 from pyexpat import model
-from attr import field
-from rest_framework.serializers import CharField, ModelSerializer, SerializerMethodField
+from rest_framework.serializers import (
+    CharField,
+    ModelSerializer,
+    CurrentUserDefault,
+    HiddenField,
+    SerializerMethodField,
+)
 from core.models import Compra, ItensCompra
 from django.db import transaction
 
@@ -21,7 +26,7 @@ class ItensCompraListSerializer(ModelSerializer):
 
 
 class CompraCreateUpdateSerializer(ModelSerializer):
-    itens = ItensCompraCreateUpdateSerializer(many=True)
+    usuario = HiddenField(default=CurrentUserDefault())
 
     class Meta:
         model = Compra
